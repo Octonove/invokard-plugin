@@ -1,0 +1,19 @@
+{
+  "description": "Invokard: inyecta las reglas permanentes (El Orquestador y El Workflower) al arrancar la sesion.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js"],
+            "timeout": 10,
+            "statusMessage": "Cargando las reglas de Invokard"
+          }
+        ]
+      }
+    ]
+  }
+}

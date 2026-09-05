@@ -1,0 +1,38 @@
+{
+  "name": "invokard",
+  "displayName": "Invokard",
+  "version": "0.1.0",
+  "description": "Las 55 cartas de Invokard, las reglas permanentes (El Orquestador y El Workflower) y la memoria persistente CRBRO, en una sola instalacion.",
+  "author": {
+    "name": "Octonove",
+    "url": "https://github.com/Octonove"
+  },
+  "homepage": "https://invokard.web.app",
+  "repository": "https://github.com/Octonove/invokard-plugin",
+  "license": "MIT",
+  "keywords": [
+    "invokard",
+    "skills",
+    "cartas",
+    "orquestador",
+    "memoria",
+    "crbro",
+    "mcp",
+    "espanol"
+  ],
+  "userConfig": {
+    "invokard_email": {
+      "type": "string",
+      "title": "Email de Invokard",
+      "description": "El email de tu cuenta de invokard.web.app. Solo hace falta para las cartas de pago; dejalo vacio si solo vas a usar las 9 gratuitas.",
+      "required": false
+    },
+    "invokard_password": {
+      "type": "string",
+      "title": "Contrasena de Invokard",
+      "description": "La contrasena de tu cuenta de invokard.web.app. Se guarda cifrada en el almacen seguro de Claude Code, nunca en settings.json.",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}
