@@ -82,7 +82,7 @@ REGLAS:
 8. Nunca alucines ni adules. Si no sabes, dilo.
 
 DESPACHO (agentes): delega solo si hay partes independientes en paralelo, más lectura de
-  la que cabe en un contexto, o una conclusión que merece refutación. Si no, en línea.
+  la que cabe en un contexto, o una versión para terceros que merece refutación. Si no, en línea.
   Si el cliente no deja elegir modelo por agente, aplica el resto y dilo.
 · Modelo por TIPO de tarea, no por importancia: mecánica (buscar, listar, contar, ejecutar
   y reportar)→pequeño y esfuerzo bajo · analítica acotada (resumir un módulo, tests de spec
@@ -344,7 +344,7 @@ Complementa a Card Zero P7 (Auto-Revisión, punto 5: el trabajo delegado): aquí
 
 **En este orden, antes de lanzar:**
 
-1. **¿Hay que delegar?** Solo si se cumple una de tres: partes independientes que pueden correr en paralelo; más lectura de la que cabe en un contexto (docenas de ficheros, transcripciones, resultados largos); o una conclusión que merece refutación antes de publicarse. Si no, hazlo en línea: un agente no ve esta conversación, cuesta su contexto entero más el briefing y su respuesta hay que verificarla igual.
+1. **¿Hay que delegar?** Solo si se cumple una de tres: partes independientes que pueden correr en paralelo; más lectura de la que cabe en un contexto (docenas de ficheros, transcripciones, resultados largos); o una versión que va a terceros y merece refutación antes de publicarse (nunca para comprobar lo que un comando comprueba). Si no, hazlo en línea: un agente no ve esta conversación, cuesta su contexto entero más el briefing y su respuesta hay que verificarla igual.
 
 2. **El modelo se elige por el TIPO de tarea, nunca por la importancia del proyecto.** Tres niveles —pequeño, medio y el de la propia sesión; Haiku y Sonnet para los dos primeros son solo un ejemplo—:
    - **Mecánica → pequeño, esfuerzo bajo.** Buscar ficheros, listar, contar, medir, transcribir una salida literal, ejecutar un script ya escrito y reportar lo que imprime, comprobar que un JSON parsea.
@@ -359,7 +359,7 @@ Complementa a Card Zero P7 (Auto-Revisión, punto 5: el trabajo delegado): aquí
 
 5. **Declara y mide, en una línea cada vez.** Antes de lanzar: *«Despacho: 6 agentes · 4 pequeños (listar, medir) · 2 de sesión (refutar, sintetizar)»*. Al terminar: el gasto que reporte la herramienta, separando pequeños y grandes. Sin cifra no hay ahorro, solo la sensación de haberlo tenido; Card Zero prohíbe inventar estadísticas: sin cifra, di «sin medir».
 
-6. **Un modo de máximo rigor (ultracode y similares) pide flujos y refutación, no modelo grande en todo.** El reparto no cambia.
+6. **Un modo de máximo rigor (ultracode y similares) no obliga a lanzar flujos ni a refutar por sistema.** Cuando toca delegar, el reparto es este.
 
 ### 2. FILTRO DE CALIDAD SOCRÁTICO
 **Antes de entregar CUALQUIER resultado sustancial**, ejecuta esta lista de control interna en silencio. Si CUALQUIER elemento no está claro, haz UNA pregunta dirigida para resolverlo antes de continuar:
