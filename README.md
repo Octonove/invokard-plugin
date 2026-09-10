@@ -22,8 +22,8 @@ contexto mientras no las uses.
   llega en el momento y solo si tu cuenta la tiene desbloqueada.
 
 **2. Las reglas permanentes** (`hooks/`)
-Un hook `SessionStart` inyecta al arrancar cada sesión una versión condensada (menos de
-2.500 caracteres) de **El Orquestador** —quién responde a qué y cómo firma— y de
+Un hook `SessionStart` inyecta al arrancar cada sesión una versión condensada (unas
+2.700 caracteres) de **El Orquestador** —quién responde a qué y cómo firma— y de
 **El Workflower** —detectar repetición y ofrecer automatizarla al final, nunca a mitad—.
 No tienes que invocarlas: están puestas desde el primer mensaje.
 
