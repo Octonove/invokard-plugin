@@ -1,116 +1,129 @@
-# Invokard — plugin para Claude
+# Invokard
 
-Instala de una vez las **55 cartas** de Invokard, las **reglas permanentes** que hacen que
-Claude enrute bien y no se disperse, y la **memoria persistente CRBRO** que recuerda de una
-sesión a otra.
+Fifty-five working roles for Claude, the rules that decide which one answers, and a
+memory that survives between sessions. One install, free, nothing to sign up for.
 
----
+```bash
+claude plugin marketplace add Octonove/invokard-plugin
+```
+```bash
+claude plugin install invokard@invokard
+```
 
-## Qué instala exactamente
+Claude Desktop users: **+** next to the message box → **Plugins** → **Add marketplace**
+→ paste `Octonove/invokard-plugin`, then install **Invokard**.
 
-**1. Las 55 cartas** (`skills/`)
-Cada carta es un especialista: El Arquitecto, El Copywriter, El Analista de Datos, El
-Políglota, El Manitas… Claude las carga solo cuando hacen falta, así que no te ocupan
-contexto mientras no las uses.
+## What actually gets installed
 
-- **9 cartas gratuitas** vienen con el texto completo dentro del plugin y funcionan sin
-  cuenta ni conexión: `zero-protocol`, `zero-crbro`, `core-orchestrator`,
-  `mkt-copywriter`, `strategy-business`, `data-analyst`, `dev-vibecoder`,
-  `creator-aimedia`, `nexus-polymath`.
-- **46 cartas de pago** están instaladas como lanzaderas: el fichero local no contiene el
-  texto de la carta, solo la instrucción de pedírsela al servidor de Invokard. El texto
-  llega en el momento y solo si tu cuenta la tiene desbloqueada.
+Four things, each with a different job. It helps to know which is which, because
+they fail in different ways and not all of them reach every surface.
 
-**2. Las reglas permanentes** (`hooks/`)
-Un hook `SessionStart` inyecta al arrancar cada sesión una versión condensada (unas
-2.700 caracteres) de **El Orquestador** —quién responde a qué y cómo firma— y de
-**El Workflower** —detectar repetición y ofrecer automatizarla al final, nunca a mitad—.
-No tienes que invocarlas: están puestas desde el primer mensaje.
+### 1. Fifty-five skills — the specialists
 
-**3. Dos servidores MCP** (`.mcp.json`)
+A skill is a long, structured instruction set (3,400–6,700 words each) that turns
+the model into one specific professional: a copywriter, a data analyst, a business
+strategist, a chess coach, a plumber. Not "act as an expert": a method, quality
+criteria, and a working script, written so the answer is useful the first time.
 
-| Servidor | Qué hace |
+You don't invoke them. Each one declares when it applies, and the model loads it
+when your task fits. Each also declares what it does **not** do — that boundary is
+part of the work.
+
+They are grouped in eleven decks:
+
+| Deck | Skills |
 |---|---|
-| `crbro` | Memoria persistente en disco (`npx -y crbro-memory`). Contexto al empezar, decisiones guardadas, consolidación al cerrar. |
-| `invokard` | Entrega el texto de las cartas de pago y gestiona la sesión de tu cuenta (`npx -y invokard-mcp`). |
+| **Zero** — integrity and memory | Card Zero · CRBRO · Prompt Engineer |
+| **Core** — coordination | The Orchestrator · The Workflower |
+| **Dev** | Architect · Bug Hunter · Refactorer · UX/UI · DevOps · Vibe Coder |
+| **Marketing** | Copywriter · SEO · Media Buyer · Social · Analytics · Funnel · Email · Web Designer · Influencer |
+| **Creator** | Visual Designer · Video Scripter · Content · Brand · Community · AI Media |
+| **Data** | Analyst · Visualizer · ML Engineer · Researcher · Automator |
+| **Strategy** | PM · Business Strategist · Pitch Writer · Customer Success · Futurist |
+| **Nexus** — universal | Polymath · Negotiator · Ghostwriter · Neurodivergent Thinker · Closer · Novelist · Career Coach |
+| **Academy** — learning to do | Tutor · Music · Language · Exam · Chess · Drawing |
+| **Life** | Chef · Habits · Money · Fix-it · Travel |
+| **Pro** | The Studio (run a freelance business as plain-text files) |
 
-Ambos se arrancan solos al activar el plugin. Necesitas **Node.js** instalado (es lo que
-provee `npx`).
+### 2. Card Zero — the floor everything stands on
 
----
+Nine rules the model follows before doing anything else: verify a path exists before
+touching it, say "I don't know" instead of inventing a URL or a figure, don't flatter,
+don't exceed the scope asked for, confirm before deleting or overwriting, re-read its
+own work. It is not a specialist. It is what makes every specialist safer to use.
 
-## Cómo se instala, paso a paso, sin terminal
+Worth keeping loaded always. It costs almost nothing and it removes the most common
+ways an AI assistant quietly does damage.
 
-Desde Claude Desktop o Claude Code, escribiendo en el chat:
+### 3. The always-on rules — The Orchestrator and The Workflower
 
-1. **Añade el marketplace.** Escribe:
+These load automatically when a session starts (a `SessionStart` hook), so you never
+have to remember them.
 
-   ```
-   /plugin marketplace add Octonove/invokard-plugin
-   ```
+**The Orchestrator** decides which of the fifty-five answers. It routes by intent and
+deliverable, not by keywords; it refuses to load a card when the task doesn't need one;
+and it signs `▸ [Card name]` when it switches, so you always know who is talking. With
+fifty-five options, this is what keeps routing sharp instead of guessy.
 
-2. **Instala el plugin.** Escribe:
+**The Workflower** watches for repetition. If you do the same thing by hand two or
+three times in a session, it offers — at the end, never mid-task — to turn it into a
+script, a cron job or a webhook. It never offers twice after a "no".
 
-   ```
-   /plugin install invokard@invokard
-   ```
+### 4. CRBRO — memory between sessions
 
-3. **Rellena tus datos si te los pide.** Al activarlo, Claude te preguntará por el email y
-   la contraseña de tu cuenta de Invokard. Son **opcionales**: déjalos vacíos si solo vas a
-   usar las 9 cartas gratuitas. La contraseña se guarda en el almacén seguro de Claude, no
-   en un fichero de texto.
+Everything else here is text. CRBRO is a program: a small MCP server that runs on your
+machine and gives the model persistent memory.
 
-4. **Recarga.** Escribe:
+- At the start of a session it loads what earlier sessions left: decisions, facts,
+  open items, mistakes already made.
+- During the session it records what matters.
+- At the end it consolidates and links it.
 
-   ```
-   /reload-plugins
-   ```
+The memory lives in `~/.crbro` as plain JSON files you can open, edit and version. No
+account, no cloud, nothing leaves your computer. It is its own open-source project:
+[github.com/Octonove/crbro-memory](https://github.com/Octonove/crbro-memory). This
+plugin installs and connects it for you (`npx -y crbro-memory`); it needs Node.js
+present on the machine.
 
-5. **Compruébalo.** Abre una conversación nueva y pídele algo, por ejemplo *"escríbeme el
-   headline de mi landing"*. Debería contestarte firmando `▸ El Copywriter`.
+**Why it matters:** without it, every conversation starts from zero and you re-explain
+your project each time. With it, the assistant remembers that the client is on
+WordPress, that you decided against microservices in June, and that the last deploy
+broke because of a CRLF file.
 
-Si prefieres el menú, `/plugin` abre el gestor y puedes hacer los pasos 1, 2 y 3 pinchando.
+## What works where
 
----
+The plugin is one package, but the surfaces it can run on are not equal. Local
+programs need a computer to run on; hooks are not executed everywhere.
 
-## Qué hace falta para las cartas de pago
+| | Claude Code | Claude Desktop | Cowork | claude.ai in the browser |
+|---|---|---|---|---|
+| The 55 skills | ✅ | ✅ | ✅ | ✅ |
+| Always-on rules (hook) | ✅ | ✅ | ✅ | ❌ hooks don't run |
+| CRBRO memory | ✅ | ✅ | ❌ needs a remote server | ❌ needs a remote server |
 
-Las 46 cartas restantes se sirven desde Invokard y requieren **cuenta con Pase activo** (o
-esa carta comprada suelta) en <https://invokard.web.app>.
+In the browser you get the skills, and Card Zero as a skill the model loads on
+demand — but not as a permanent floor, and not the memory.
 
-1. Crea tu cuenta en <https://invokard.web.app> con email y contraseña.
-2. Activa el Pase o compra las cartas que quieras.
-3. Conecta el plugin con tu cuenta, de una de estas dos formas:
-   - **Al instalar:** rellena "Email de Invokard" y "Contraseña de Invokard" en el diálogo
-     de configuración del plugin (paso 3 de arriba). Puedes volver a él cuando quieras
-     desde `/plugin`.
-   - **Desde el chat:** dile a Claude *"usa `invokard_login` con mi email y mi contraseña
-     de Invokard"* y dáselos ahí.
+## Requirements
 
-A partir de ese momento, cuando invoques una carta de pago, Claude se la pide al servidor y
-trabaja con ella. Si no tienes esa carta desbloqueada te lo dirá y te señalará el Pase; no
-se inventará el contenido.
+- A paid Anthropic plan (Pro or above): plugins are a paid-plan feature.
+- Node.js on the machine, for CRBRO. Everything else is text.
 
-**Las 9 cartas gratuitas siguen funcionando siempre**, con cuenta o sin ella.
+## Privacy
 
----
+The skills and rules are text files: they execute no code, open no connections and
+collect nothing. CRBRO writes only inside `~/.crbro` on your own machine. There is no
+telemetry anywhere in this plugin.
 
-## Preguntas rápidas
+## Support the work
 
-**¿Se me va a llenar el contexto con 55 cartas?**
-No. Claude solo tiene en contexto el nombre y una descripción corta de cada carta (unos
-13 KB en total) y carga el texto completo únicamente de la que va a usar.
+Invokard is free and stays free. If it saves you time, you can buy the people who
+maintain it a coffee:
 
-**¿Dónde está el texto de las cartas de pago?**
-En el servidor de Invokard, nunca en tu disco. Por eso el fichero local es de unas pocas
-líneas.
+- **PayPal:** [paypal.com/donate](https://www.paypal.com/donate/?business=stradoxx%40gmail.com&no_recurring=0&currency_code=EUR&item_name=Support%20Invokard)
+- **USDC on Solana:** `5n6Gfosk7SdwbvdtE9xiLWpcGPBBBGDZYRfAkWyCk86g`
+- **USDC on Ethereum (ERC-20):** `0xe176866f9d7fdb498e0d4a983d3e34d84dcd6bfc`
 
-**¿Puedo usar solo la memoria y no las cartas?**
-Sí: instala el plugin y usa CRBRO. Las cartas no molestan si no las llamas.
+## Author
 
-**¿Cómo lo desinstalo?**
-`/plugin uninstall invokard@invokard`.
-
----
-
-MIT · [Octonove](https://github.com/Octonove) · <https://invokard.web.app>
+[Octonove](https://github.com/Octonove) · [invokard.web.app](https://invokard.web.app)

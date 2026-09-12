@@ -2,15 +2,10 @@
   "mcpServers": {
     "crbro": {
       "command": "npx",
-      "args": ["-y", "crbro-memory"]
-    },
-    "invokard": {
-      "command": "npx",
-      "args": ["-y", "invokard-mcp"],
-      "env": {
-        "INVOKARD_EMAIL": "${user_config.invokard_email}",
-        "INVOKARD_PASSWORD": "${user_config.invokard_password}"
-      }
+      "args": [
+        "-y",
+        "crbro-memory"
+      ]
     }
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// Invokard — hook SessionStart.
-// Inyecta las reglas permanentes (El Orquestador y El Workflower) como
-// additionalContext al arrancar la sesion. Sin dependencias, multiplataforma.
+// Invokard — SessionStart hook.
+// Injects the always-on rules (The Orchestrator and The Workflower) as
+// additionalContext when the session starts. No dependencies, cross-platform.
 
 const fs = require('fs');
 const path = require('path');
@@ -16,7 +16,7 @@ function main() {
   try {
     rules = fs.readFileSync(file, 'utf8').trim();
   } catch (err) {
-    // Si el fichero no esta, no bloqueamos la sesion: salimos en silencio.
+    // If the file is missing we do not block the session: exit quietly.
     process.exit(0);
   }
 
@@ -28,8 +28,8 @@ function main() {
   }));
 }
 
-// El evento llega por stdin como JSON; no necesitamos leerlo, pero lo drenamos
-// para no dejar la tuberia colgada en Windows.
+// The event arrives on stdin as JSON; we do not need to read it, but we drain
+// it so the pipe is not left hanging on Windows.
 process.stdin.resume();
 process.stdin.on('data', () => {});
 process.stdin.on('end', main);

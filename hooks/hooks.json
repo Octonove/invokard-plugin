@@ -1,5 +1,5 @@
 {
-  "description": "Invokard: inyecta las reglas permanentes (El Orquestador y El Workflower) al arrancar la sesion.",
+  "description": "Invokard: injects the always-on rules (The Orchestrator and The Workflower) when the session starts.",
   "hooks": {
     "SessionStart": [
       {
@@ -10,7 +10,7 @@
             "command": "node",
             "args": ["${CLAUDE_PLUGIN_ROOT}/hooks/session-start.js"],
             "timeout": 10,
-            "statusMessage": "Cargando las reglas de Invokard"
+            "statusMessage": "Loading Invokard rules"
           }
         ]
       }

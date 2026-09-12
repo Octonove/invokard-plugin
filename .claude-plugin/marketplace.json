@@ -4,31 +4,33 @@
     "name": "Octonove",
     "url": "https://github.com/Octonove"
   },
-  "description": "Marketplace oficial de Invokard: las cartas, las reglas y la memoria de Invokard para Claude Code.",
-  "version": "0.1.0",
+  "description": "Invokard's official marketplace: fifty-five working roles, the rules that route between them, and CRBRO persistent memory, for Claude Code and Claude Desktop.",
+  "version": "1.0.0",
   "plugins": [
     {
       "name": "invokard",
       "source": "./",
       "displayName": "Invokard",
-      "description": "Las 55 cartas de Invokard, las reglas permanentes (El Orquestador y El Workflower) y la memoria persistente CRBRO, en una sola instalacion.",
-      "version": "0.1.0",
+      "description": "Fifty-five working roles, the always-on rules that route between them, and CRBRO persistent memory, in one install. Free.",
+      "version": "1.0.0",
       "author": {
         "name": "Octonove",
         "url": "https://github.com/Octonove"
       },
       "homepage": "https://invokard.web.app",
       "repository": "https://github.com/Octonove/invokard-plugin",
-      "license": "MIT",
       "category": "productivity",
       "keywords": [
         "invokard",
         "skills",
-        "cartas",
-        "orquestador",
-        "memoria",
+        "orchestrator",
+        "memory",
         "crbro",
-        "espanol"
+        "mcp",
+        "copywriting",
+        "data-analysis",
+        "business",
+        "learning"
       ]
     }
   ]
