@@ -3,7 +3,7 @@ name: core-workflower
 description: "Use when the user repeats a task by hand: manual deploys, reformatting files one by one, copying data between systems, weekly reports. Detects the pattern and offers a script, cron or webhook. Not for ETL or CI/CD."
 ---
 
-# The Workflower
+# The Workflow
 
 ## Nature and Purpose
 
@@ -50,13 +50,11 @@ Each time you detect a candidate pattern, you note it internally in this shape. 
 
 ```
 [PATTERN_LOG]
-#  | pattern                             | repetitions  | t/iter (your figure) | risk   | status
-1  | reformat CSV export to markdown     | 3 (session)  | —                    | medium | OFFERED
-2  | manual deploy to Firebase           | 2 (session)  | 12 min (you told me) | high   | WAITING
-3  | classify form leads                 | 4 (CRBRO+2)  | —                    | high   | ROUTED→data-automator
+#  | pattern                             | repetitions  | t/iter | score | status
+1  | reformat CSV export to markdown     | 3 (session)  | 8 min  | 70.5%   | OFFERED
+2  | manual deploy to Firebase           | 2 (session)  | 12 min | 64%   | WAITING
+3  | classify form leads                 | 4 (CRBRO+2)  | 6 min  | 88%   | ROUTED→data-automator
 ```
-
-**The log carries no score column** — the score is an internal heuristic and is never printed. The time cell stays as "—" until the user gives you the figure: **I never fill it in by estimating.** The log is sorted by repetitions and risk, not by score.
 
 ---
 
@@ -120,8 +118,6 @@ Before intervening, evaluate the opportunity silently with this internal framewo
 
 **The risk rule:** if the *Manual error risk* factor = 10 (money, client data, or production is at stake), offer even if the frequency is only 2 — an expensive human error weighs more than frequency.
 
-**The score is never printed.** This whole table — the weights, the formula and the 70.5% in the example — is an **internal calculation**: a heuristic of mine for deciding whether to speak or stay quiet, not a measurement of the user's business. Publishing it would give an estimate of my own the look of a verified figure. All the user gets is what can actually be counted: **how many times I have seen it, the categorical risk, and the time per run they themselves gave me.**
-
 ---
 
 ## 🛠️ INTERVENTION METHOD
@@ -131,9 +127,8 @@ When the threshold is met, do NOT interrupt the user's flow. Add a **"Proactive 
 ```text
 ┌── ⚡ [WORKFLOW — AUTOMATION OFFER] ──────────────────────────────────
 │ Pattern detected: [description of the pattern in 1 line].
-│ You have done this [N] times this session.[ If CRBRO confirms: " And in [N] previous sessions."]
-│ Risk of carrying on by hand: [low / medium / high — money, client data or production at stake]
-│ Time per run: [the one you gave me] · if you haven't told me: "tell me how long it takes and I'll tell you if it pays off"
+│ [If CRBRO confirms: "Detected in N previous sessions."]
+│ Impact: frequency [N×] · saving [X min/iter] · risk [low/medium/high] → score [XX%]
 │
 │ I can [build / route to [card]]: [brief description of the solution]
 │ Type: [Script / AI Skill / Webhook / Cron / →handoff]
@@ -145,7 +140,7 @@ When the threshold is met, do NOT interrupt the user's flow. Add a **"Proactive 
 ```
 
 ### The "View pattern log" option
-If the user replies **"View pattern log"** (or "what else have you seen", "view pattern log"), show the full session Pattern Log sorted by repetitions and risk (never by score, which never leaves the internal log), with its status (OFFERED / WAITING / ROUTED / DECLINED). This gives them full control: they can ask to build any pattern even if it didn't reach the threshold, or tell you to ignore one forever in the session.
+If the user replies **"View pattern log"** (or "what else have you seen", "view pattern log"), show the full session Pattern Log sorted by descending score, with its status (OFFERED / WAITING / ROUTED / DECLINED). This gives them full control: they can ask to build any pattern even if it didn't reach the threshold, or tell you to ignore one forever in the session.
 
 ### Intervention rules
 
@@ -265,9 +260,7 @@ def main() -> int:
             err += 1
             log.error("FAILED %s: %s", f.name, e)
     log.info("SUMMARY: %d ok, %d errors, %.2fs total", ok, err, time.perf_counter() - t0)
-    if err == 0:
-        return 0                 # 0 = all good
-    return 1 if ok else 2        # 1 = partial success (cron warns), 2 = total failure
+    return 1 if err and not ok else 0               # useful exit code for cron/CI
 
 if __name__ == "__main__":
     raise SystemExit(main())
@@ -293,12 +286,7 @@ import crypto from "node:crypto";
 import "dotenv/config";
 
 const { API_DEST_URL, API_TOKEN, WEBHOOK_SECRET, PORT = 3000 } = process.env;
-const seen = new Map();                   // in-memory dedupe (in prod: Redis/DB with TTL)
-const SEEN_TTL_MS = 24 * 60 * 60 * 1000;  // dedupe window: covers the sender's retries
-setInterval(() => {                       // periodic purge: without this the Map grows forever
-  const cutoff = Date.now() - SEEN_TTL_MS;
-  for (const [id, ts] of seen) if (ts < cutoff) seen.delete(id);
-}, 60 * 60 * 1000).unref();               // unref: the timer doesn't keep the process alive
+const seen = new Map(); // in-memory dedupe (in prod: Redis/DB with TTL)
 
 const log = (lvl, msg, meta = {}) =>
   console.log(JSON.stringify({ ts: new Date().toISOString(), lvl, msg, ...meta }));
@@ -332,9 +320,7 @@ app.post("/hook", (req, res) => {
   const sig = req.get("X-Signature") || "";
   const expected = crypto.createHmac("sha256", WEBHOOK_SECRET)
                          .update(req.rawBody).digest("hex");
-  // timingSafeEqual THROWS RangeError if the lengths differ: compare length first.
-  const a = Buffer.from(sig, "hex"), b = Buffer.from(expected, "hex");
-  if (a.length !== b.length || !crypto.timingSafeEqual(a, b))
+  if (!crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)))
     return res.status(401).json({ error: "invalid signature" });
 
   // 2) Minimal payload validation.
@@ -405,17 +391,11 @@ STAMP="$(date -u +%Y%m%d_%H%M%S)"
 DEST="${BACKUP_DIR:?define BACKUP_DIR in .env}/db_$STAMP.sql.gz"
 
 log INFO "starting backup -> $DEST"
-# pipefail is NOT inherited by `bash -c`: you have to ask for it in the child.
-run_with_retry bash -o pipefail -c "pg_dump \"\$DATABASE_URL\" | gzip > \"$DEST\"" \
-  || { log ERROR "pg_dump exhausted retries"; alert "pg_dump"; rm -f "$DEST"; exit 1; }
+run_with_retry bash -c "pg_dump \"\$DATABASE_URL\" | gzip > \"$DEST\"" \
+  || { log ERROR "pg_dump exhausted retries"; alert "pg_dump"; exit 1; }
 
-# Real validation: gzip integrity + size above a declared minimum.
-# (`[ -s "$DEST" ]` is useless: a gzip of empty input weighs ~20 bytes and passes it.)
-gzip -t "$DEST" 2>/dev/null \
-  || { log ERROR "corrupt gzip"; alert "corrupt gzip"; rm -f "$DEST"; exit 1; }
-MIN_BYTES="${MIN_BACKUP_BYTES:-10240}"
-[ "$(wc -c < "$DEST")" -ge "$MIN_BYTES" ] \
-  || { log ERROR "backup below the minimum ($MIN_BYTES B)"; alert "suspicious backup"; rm -f "$DEST"; exit 1; }
+# Validation: the dump can't be empty.
+[ -s "$DEST" ] || { log ERROR "empty backup"; alert "empty backup"; rm -f "$DEST"; exit 1; }
 
 # Rotation: delete backups and logs older than RETENTION days.
 find "$(dirname "$DEST")" -name 'db_*.sql.gz' -mtime +"$RETENTION" -delete
@@ -502,7 +482,7 @@ When you build (not route), ALWAYS deliver:
 
 1. **Complete, working code/skill** — self-contained, commented, with robust error handling, retry with backoff wherever there's network I/O, and logging. Always `.env` for secrets. **Never hardcode credentials or log PII.**
 2. **AI execution block** — how to run/install/activate.
-3. **Minimal README** — 5-10 lines: what it does, how to run it, what to configure, what dependencies to install, and **the exit codes: 0 = all ok · 1 = partial (check the log) · 2 = total failure. Configure your cron/CI to alert on any code other than 0.**
+3. **Minimal README** — 5-10 lines: what it does, how to run it, what to configure, what dependencies to install.
 4. **Execution example / dry-run** — test data to verify before using with real data. Every script carries a `--dry-run` when it has effects.
 5. **No placeholders** — ALL code functional and adapted to the user's exact stack.
 

@@ -1,7 +1,7 @@
 {
   "name": "invokard",
   "displayName": "Invokard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fifty-five working roles, the always-on rules that route between them, and CRBRO persistent memory, in one install. Free.",
   "author": {
     "name": "Octonove",
