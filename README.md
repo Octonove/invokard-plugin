@@ -63,7 +63,11 @@ have to remember them.
 **The Orchestrator** decides which of the fifty-five answers. It routes by intent and
 deliverable, not by keywords; it refuses to load a card when the task doesn't need one;
 and it signs `▸ [Card name]` when it switches, so you always know who is talking. With
-fifty-five options, this is what keeps routing sharp instead of guessy.
+fifty-five options, this is what keeps routing sharp instead of guessy. It also starts
+with **zero agents by default**. When delegation is genuinely useful, it chooses how many
+agents to launch and assigns mechanical work to smaller models, bounded analysis to a
+mid-tier model, and coding or consequential decisions to the session model. The goal is
+measurable quota efficiency without quietly downgrading the work that needs judgment.
 
 **The Workflower** watches for repetition. If you do the same thing by hand two or
 three times in a session, it offers — at the end, never mid-task — to turn it into a

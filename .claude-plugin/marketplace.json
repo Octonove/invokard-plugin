@@ -11,8 +11,8 @@
       "name": "invokard",
       "source": "./",
       "displayName": "Invokard",
-      "description": "Fifty-five working roles, the always-on rules that route between them, and CRBRO persistent memory, in one install. Free.",
-      "version": "1.0.2",
+      "description": "Fifty-five working roles, agent-aware routing that spends smaller models on mechanical work, and CRBRO persistent memory. Free.",
+      "version": "1.0.3",
       "author": {
         "name": "Octonove",
         "url": "https://github.com/Octonove"

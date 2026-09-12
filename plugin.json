@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "invokard",
-  "version": "1.0.2",
-  "description": "Fifty-five working roles for concrete tasks, plus the always-on rules that route between them. Free. In Claude Code and Claude Desktop it also installs CRBRO persistent memory.",
+  "version": "1.0.3",
+  "description": "Fifty-five working roles, agent-aware routing that spends smaller models on mechanical work, and CRBRO persistent memory. Free.",
   "author": {
     "name": "Octonove",
     "url": "https://github.com/Octonove"
