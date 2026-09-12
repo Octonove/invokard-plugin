@@ -12,7 +12,7 @@
       "source": "./",
       "displayName": "Invokard",
       "description": "Fifty-five working roles, agent-aware routing that spends smaller models on mechanical work, and CRBRO persistent memory. Free.",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "author": {
         "name": "Octonove",
         "url": "https://github.com/Octonove"

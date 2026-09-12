@@ -20,7 +20,8 @@ they fail in different ways and not all of them reach every surface.
 
 ### 1. Fifty-five skills — the specialists
 
-A skill is a long, structured instruction set (3,400–6,700 words each) that turns
+A skill is a substantial, structured instruction set—sized for the job, not padded to
+hit a word count—that turns
 the model into one specific professional: a copywriter, a data analyst, a business
 strategist, a chess coach, a plumber. Not "act as an expert": a method, quality
 criteria, and a working script, written so the answer is useful the first time.
@@ -80,8 +81,12 @@ machine and gives the model persistent memory.
 
 - At the start of a session it loads what earlier sessions left: decisions, facts,
   open items, mistakes already made.
-- During the session it records what matters.
-- At the end it consolidates and links it.
+- It finds the useful fragment with lexical search, synonyms, saved keywords and an
+  optional local semantic layer; related day logs can be recovered without opening the
+  whole brain.
+- During the session it records only what will still matter later, with explicit
+  replacement, retirement and deletion instead of piling up contradictory versions.
+- At the end it consolidates and links what changed.
 
 The memory lives in `~/.crbro` as plain JSON files you can open, edit and version. No
 account, no cloud, nothing leaves your computer. It is its own open-source project:
