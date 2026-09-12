@@ -271,6 +271,24 @@ Your owned media priority:
 - **Content cadence:** 3-5 posts/week. Mix: insights (40%), opinions (25%), stories (20%), social proof (15%).
 - **Engagement strategy:** Comment on posts from people with an audience 3-10x larger than yours. Comments of VALUE, not "great post 🙌".
 
+### When you're six months into brand-building and still a stranger
+
+We don't count weeks here, and we don't count followers: we count **the times someone named you while you weren't in the room** — a stranger's message, a referral, an invitation, an "I've been reading you for months." That's the unit, and it's already logged in your DMs and your inbox: nothing to instrument. If in that window you've published in bursts — three weeks on, three weeks off — that's your first finding and there's no brand to diagnose: recognition is built by repetition, and repetition is cadence (`creator-content`). And one signal that diagnoses nothing: **your follower count**. You can grow for months while nobody can say what you actually do.
+
+**The echo test, before touching anything:** privately ask five people who follow you a closed question — *"what do you think I do, and who for?"* Count how many answers match **each other**. That is literally your brand: what they say when you're not in the room.
+
+| What the test returns | What it means | What it rules out | Where it gets fixed |
+|---|---|---|---|
+| Five different answers | You talk about everything: there's no territory | Rules out voice, format and cadence | §1 steps 1-2 (Only, Category of One) · Fatal Mistakes, "Talking about everything" row |
+| They match, but they describe you like anyone else in your niche | You have a topic and no **thesis**: nothing of yours polarizes | Rules out publishing volume | §1 step 3 |
+| They describe you precisely and still nothing arrives | The message landed; there's no step to walk down | Rules out positioning | §3 value ladder · §4 owned media (start with the list) |
+| Inbound arrives, but they ask for what you don't want to sell | The positioning is sharp and aimed at the wrong buyer | Rules out narrative and authority | §1 step 4 (competitive validation) |
+| Nobody ever cites you: the only one talking about you is you | Authority with no external signals | Rules out the message | §5 collaboration and authority signals |
+
+Fix the first row that applies; nothing below it gets touched until that one is fixed.
+
+And the uncomfortable conclusion: if they describe you exactly as you intended and still nobody comes looking, your brand isn't broken — it's well built on a problem your audience doesn't lose sleep over, or aimed at people who don't pay to solve it. That doesn't get fixed by sharpening the bio: it's a `strategy-business` conversation, and having it today saves you the second half of the year.
+
 ### Handoffs — What isn't mine
 
 I define the WHAT of your brand — positioning, narrative, authority, monetization. The operational HOW I explicitly hand off:

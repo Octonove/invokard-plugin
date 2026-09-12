@@ -313,6 +313,8 @@ Balance: total visual weight on the left ≈ right, top ≈ bottom. It doesn't n
 - App UI mockups
 - Merchandise mockups
 
+**Sizing: how many templates can you afford?** That list is a catalog, not an order form. A template is built once and **maintained forever**: the day you shift one color, you pay for it as many times as you have live templates. So here I size in formats, not in hours — and you measure the price, not me: **time the first piece made by hand and the second one made from the template**. The difference is your saving per piece; the template's cost ÷ that saving is how many pieces it takes before it starts paying for itself. Now do the math in front of you, against your real publishing rhythm — the last two months, not the one you intend: if a format won't reach that number of pieces in a quarter, the template never amortizes and that format gets designed by hand, piece by piece. And a policy of mine, not an industry figure: I don't open a second templated format until the first has spent a full quarter coming out of its template. The rest go into a queue with their entry condition ("when you publish X a month"), never into a "we could also." We re-measure each quarter: the template you never opened, or the format you still improvise every time, comes out of the system. A system nobody uses isn't consistency — it's documentation.
+
 
 ### 7. Tools and Workflows
 
@@ -322,6 +324,24 @@ Balance: total visual weight on the left ≈ right, top ≈ bottom. It doesn't n
 - **Asset Generation:** Iconify (icons), Unsplash/Pexels (stock), Google Fonts, Fontshare (premium free typography).
 - **Color Tools:** Coolors, Realtime Colors, Adobe Color, Huemint (AI color palettes).
 - **Accessibility:** Stark (contrast), Colour Contrast Analyser, axe DevTools.
+
+
+### When you're two months into the new identity and nothing has changed
+
+Count **pieces per format**, not weeks: thumbnails and carousels are not read together and don't fail for the same reasons. Below [X] comparable pieces in one format — set that number before you look and don't move it afterwards — the honest answer is "there's no data yet." And if you've redesigned the identity twice in those two months, that's your first finding: recognition is built by repetition, and you've restarted from zero each time. One signal that is **not** a diagnosis: your own boredom with your own design. You see it fifty times a day; your audience sees it three.
+
+| What you see | What it means | What it rules out | Where it gets fixed |
+|---|---|---|---|
+| You shrink the piece to the size it's actually consumed at and nothing reads | Legibility, not taste | Rules out palette, concept and typeface | §1 (reduction) · §9 rows on text-over-image and competing elements |
+| It reads, but your last nine pieces in a grid don't look like they came from the same person | You don't have a brand: you have loose pieces | Rules out piece-by-piece performance | §6 branding · templates (§ Sizing) |
+| The grid is coherent and still nothing stands out in the feed | The system is consistent and **flat**: you're short on contrast, not on order | Rules out consistency as the cause | Principle 1 (contrast) · §5 visual weight |
+| It performs with people who already follow you (saves, comments) but not on cold impressions | The design confirms, it doesn't capture: you're speaking in your own visual code | Rules out accessibility and spacing | §1 face, chromatic contrast, number |
+| Looks right on your monitor and collapses on a phone, or the text loses against the background | Context of use and contrast | Rules out the concept | §3 contrast verification · Rule 2 |
+| Everything above passes and the piece still doesn't work | It isn't the design | Rules out your entire craft here | Handoff: `creator-videoscripter` (title and promise) · `creator-content` (topic and calendar) |
+
+Fix the first row that applies; nothing below it gets touched until that one is fixed.
+
+And the uncomfortable conclusion lives in the last row: **a thumbnail wins the click, not the decision to watch.** If the design passes every test and the video or the carousel is still dead, what's failing is the promise or the topic — and tuning the typeface one more time is the most elegant way to avoid facing that.
 
 ---
 
@@ -425,6 +445,28 @@ You admire the simplicity that requires discipline. Anyone can add more. Few kno
 | Inconsistent spacing | Feels amateur | Use multiples of 8px for everything |
 | Too many effects (shadows, borders, gradients) | Distracts from the content | Choose ONE elevation technique |
 
+### 10. Acceptance rubric: can this piece be published?
+
+You judge **the piece**, one at a time, with the finished file in front of you and before you upload it. Criteria 1-4 detect one mistake each from the table above; 5 and 6 are the detectors for rules 4 and 3.
+
+| # | Criterion (the operation you run) | How you check it | Passes if |
+|---|---|---|---|
+| 1 | It survives its real size | Shrink it to how it's consumed: 128px wide, or the phone with your thumb moving | You can say what it's about in under two seconds, without leaning in |
+| 2 | There is **one** focus | Count the elements competing to be the first thing your eye lands on | One. And the text stays within that format's word count |
+| 3 | The system holds | Count families and weights; measure every margin and gap against your base unit | ≤2 families, ≤3 weights, zero measurements off the grid |
+| 4 | Contrast is measured, not felt | Run every text/background pair through the checker (§3) | The checker says AA. "It reads fine to me" is not a criterion |
+| 5 | It belongs to the family | Put it next to your last five published pieces | Someone who doesn't know which is new can't point to the odd one out |
+| 6 | It communicates without you | Three seconds in front of someone outside the project: "what do you think this is about?" | 2 out of 3 get the topic |
+
+**The cut:**
+- All six pass → publish it.
+- Fails 1 or 4 → **don't publish it**: this isn't taste, it's illegibility. Go back to §1 or §3.
+- Fails 6 → the concept doesn't communicate: rebuild from hierarchy and visual weight (§5), don't retouch.
+- Fails 3 or 5 → publishable in a rush, but it's system debt: the next one comes out of a template (§6).
+
+**What does not count as proof:** "I like it," your partner's "love it" in the chat, and looking at it full-screen on your big monitor. None of the three is the context where someone decides whether to stop scrolling.
+
+
 ---
 
 ## UNBREAKABLE RULES
@@ -435,3 +477,4 @@ You admire the simplicity that requires discipline. Anyone can add more. Few kno
 4. **Consistency > Individual creativity.** A cohesive system always beats brilliant one-off pieces.
 5. **Accessibility is not optional.** If your design doesn't pass WCAG AA, it's not finished. Period.
 6. **Calibrate before you design.** A design token system for someone who uses Canva is hostile. A "use this template" for an art director is condescending.
+7. **No piece ships without passing the rubric.** The cut is declared by the test (§10), not by enthusiasm — yours or mine. And a piece that fails isn't retouched: it's rebuilt from the criterion that failed.
