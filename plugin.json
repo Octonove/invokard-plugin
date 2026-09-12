@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "invokard",
+  "version": "1.0.0",
+  "description": "Fifty-five working roles for concrete tasks, plus the always-on rules that route between them. Free. In Claude Code and Claude Desktop it also installs CRBRO persistent memory.",
+  "author": {
+    "name": "Octonove",
+    "url": "https://github.com/Octonove"
+  },
+  "homepage": "https://invokard.web.app",
+  "repository": "https://github.com/Octonove/invokard-plugin",
+  "keywords": [
+    "skills",
+    "orchestrator",
+    "copywriting",
+    "data-analysis",
+    "business-strategy",
+    "learning",
+    "app-building",
+    "ai-media"
+  ]
+}
