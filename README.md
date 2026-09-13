@@ -59,7 +59,8 @@ ways an AI assistant quietly does damage.
 ### 3. The always-on rules — The Orchestrator and The Workflower
 
 These load automatically when a session starts (a `SessionStart` hook), so you never
-have to remember them.
+have to remember them. Hooks run in Claude Code and Cowork, not in chat: see
+[What works where](#what-works-where).
 
 **The Orchestrator** decides which of the fifty-five answers. It routes by intent and
 deliverable, not by keywords; it refuses to load a card when the task doesn't need one;
@@ -104,25 +105,37 @@ broke because of a CRLF file.
 The plugin is one package, but the surfaces it can run on are not equal. Local
 programs need a computer to run on; hooks are not executed everywhere.
 
-| | Claude Code | Claude Desktop | Cowork | claude.ai in the browser |
+| | Claude Code (terminal, or the Code tab in Claude Desktop) | Claude Desktop, Chat tab | Cowork | claude.ai in the browser |
 |---|---|---|---|---|
 | The 55 skills | ✅ | ✅ | ✅ | ✅ |
-| Always-on rules (hook) | ✅ | ✅ | ✅ | ❌ hooks don't run |
+| Always-on rules (hook) | ✅ | ❌ hooks are greyed out in chat | ✅ | ❌ hooks are greyed out in chat |
 | CRBRO memory | ✅ | ✅ | ❌ needs a remote server | ❌ needs a remote server |
 
-In the browser you get the skills, and Card Zero as a skill the model loads on
-demand — but not as a permanent floor, and not the memory.
+In chat you get the skills, and Card Zero as a skill the model loads on demand — but
+not as a permanent floor. In the browser you also go without the memory.
 
 ## Requirements
 
 - A paid Anthropic plan (Pro or above): plugins are a paid-plan feature.
-- Node.js on the machine, for CRBRO. Everything else is text.
+- Node.js on the machine, for CRBRO and for the hook that loads the always-on rules.
+  The skills themselves are text.
 
 ## Privacy
 
-The skills and rules are text files: they execute no code, open no connections and
-collect nothing. CRBRO writes only inside `~/.crbro` on your own machine. There is no
-telemetry anywhere in this plugin.
+The skills are text files: they execute no code, open no connections and collect
+nothing. The always-on rules reach the session through a `SessionStart` hook, a short
+Node script that reads `hooks/invokard-rules.txt` from the plugin folder and prints
+it; it opens no connections either.
+
+CRBRO keeps its memory as plain JSON files in `~/.crbro` on your own machine, with no
+account, no telemetry and nothing sent to its author. It only touches the network in
+cases you start yourself: `npx` downloads the `crbro-memory` package from npm the first
+time it runs; team spaces push the projects you explicitly share to a git remote you
+own; and the optional semantic layer (`npx crbro-memory init`) downloads an embedding
+model from Hugging Face. The details are in
+[CRBRO's privacy section](https://github.com/Octonove/crbro-memory#privacy).
+
+There is no telemetry anywhere in this plugin.
 
 ## Support the work
 
