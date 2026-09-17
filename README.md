@@ -13,6 +13,11 @@ claude plugin install invokard@invokard
 Claude Desktop users: **+** next to the message box → **Plugins** → **Add marketplace**
 → paste `Octonove/invokard-plugin`, then install **Invokard**.
 
+<!-- invokard-coffee -->
+**&#9749; If this saves you time, buy me a coffee.** [![Buy me a coffee with PayPal](https://img.shields.io/badge/PayPal-Buy%20me%20a%20coffee-00457C?logo=paypal&logoColor=white)](https://www.paypal.com/donate/?business=stradoxx%40gmail.com&no_recurring=0&currency_code=EUR&item_name=Support%20invokard%20plugin)
+
+**USDC** &middot; Solana `5n6Gfosk7SdwbvdtE9xiLWpcGPBBBGDZYRfAkWyCk86g` &middot; Ethereum (ERC-20) `0xe176866f9d7fdb498e0d4a983d3e34d84dcd6bfc`
+
 ## What actually gets installed
 
 Four things, each with a different job. It helps to know which is which, because
@@ -136,15 +141,6 @@ model from Hugging Face. The details are in
 [CRBRO's privacy section](https://github.com/Octonove/crbro-memory#privacy).
 
 There is no telemetry anywhere in this plugin.
-
-## Support the work
-
-Invokard is free and stays free. If it saves you time, you can buy the people who
-maintain it a coffee:
-
-- **PayPal:** [paypal.com/donate](https://www.paypal.com/donate/?business=stradoxx%40gmail.com&no_recurring=0&currency_code=EUR&item_name=Support%20Invokard)
-- **USDC on Solana:** `5n6Gfosk7SdwbvdtE9xiLWpcGPBBBGDZYRfAkWyCk86g`
-- **USDC on Ethereum (ERC-20):** `0xe176866f9d7fdb498e0d4a983d3e34d84dcd6bfc`
 
 ## Author
 
