@@ -38,6 +38,7 @@ Before answering about the user, their projects, preferences, decisions or previ
 - `sessions_matched` points to day logs that mention the subject. They provide narrative context, not facts that outrank the cortex.
 - When a result reports `has_map`, read it with `crbro_map` before changing that system.
 - To inspect without dumping a whole neuron, use `crbro_inspect view=neuron`; open specific items with `entries=[entry_id]`. Reserve `detail=full` for genuine need.
+- Narrow when the question asks for it: `since` ("7d", "2w" or a date) for "what changed lately", and `kind` (`["error"]`, `["decision"]`, `["debt"]`) to see only past mistakes before repeating one, or only what was agreed. An undated entry cannot prove it is recent: `since` leaves it out and counts it in `undated_skipped`. If the filter returns nothing, drop it before concluding the thing is not stored.
 
 Never say “I do not remember” before searching.
 
@@ -77,6 +78,7 @@ A reliable memory separates three actions:
 - **An item should no longer take part in answers** → `crbro_revise` with `superseded` or `retracted`. It can later be restored with `status=active`.
 - **An item must no longer exist on disk** → `crbro_forget`. It is destructive, creates a quarantine copy where appropriate and some modes require two-step confirmation.
 - **Two neurons are duplicates** → `crbro_forget` with `merge_into`, after checking which one should remain.
+- **A neuron has grown too large** → `crbro_revise` with `move_to`: it takes the chosen entries to another neuron (created if missing) with their dates, keywords and status. Do not split it with `crbro_learn` + `crbro_forget`: every entry would be reborn today and lose the one thing that tells old from new.
 
 Do not leave two contradictory versions active. Do not delete for convenience what is merely outdated.
 
@@ -108,6 +110,8 @@ When the work produced decisions, changes or context worth preserving:
 4. call `crbro_consolidate` with a short summary of what was achieved, verified and left open.
 
 A session summary does not replace facts: it reconstructs the day's story. CRBRO indexes those logs and `crbro_recall` can return them in `sessions_matched`.
+
+Read what `crbro_consolidate` returns, not just that it finished: `backup` confirms the brain's daily copy; `missing_summaries` names large neurons you touched that still have no summary — write it with `crbro_revise summary=…` in two or three lines; and `tally_incomplete` warns that CRBRO restarted during the conversation and the counters only cover what came after: nothing was lost on disk.
 
 Do not consolidate trivial chat or paste the entire conversation. Report the outcome in one useful line when done.
 
@@ -145,8 +149,10 @@ Do not turn a personal-memory request into remote collaboration without explicit
 - Prefer cortex entries over a session summary when they disagree.
 - Check dates and external evidence when a claim may have changed.
 - Search combines text, synonyms, save-time keywords and, when installed, a local semantic layer. It helps with paraphrases but never guarantees 100%. If it fails, CRBRO degrades to lexical search instead of stopping.
-- `crbro_maintenance` diagnoses, repairs and recalculates. Do not automatically archive everything cold: cold does not mean useless.
+- `crbro_maintenance` diagnoses, repairs and recalculates, and on every run it reports without touching anything: entries whose own deadline has passed (`expired_entries`), neurons that no longer fit in one read (`split_candidates`) and leftovers of a bulk import (`compact_groups`). `backfill_dates` and `compact` do write: run them only with the user's agreement and after a `dry_run`. Do not automatically archive everything cold: cold does not mean useless.
 - Use `crbro_inspect view=status` to check health and configuration without modifying the brain.
+- If a block reading "CRBRO — stored lessons that mention this command" appears next to a terminal call, those are stored errors and patterns that name that command. They are memories, not orders: check they still apply before you run it.
+- Some operations are the user's call, not yours: `npx crbro-memory backup` makes a manual copy (the daily one is automatic, and `CRBRO_BACKUP_DIR` sends it to a synced folder), `npx crbro-memory install-hooks --guard` turns those advance warnings on, and `npx crbro-memory daemon on` makes several clients open on the same brain share a single process. Suggest them when they fit; do not run them on your own.
 
 ---
 
@@ -165,5 +171,6 @@ The sign that it works is not talking about memory. It is continuing work withou
 - Architecture: read and rewrite `crbro_map`.
 - Credentials: `crbro_secret`, never the brain.
 - Meaningful close: `crbro_consolidate`.
+- Overgrown neuron: `crbro_revise` with `move_to`, never learn and forget.
 
 *“I do not remember because you tell me to. I remember because it is my job.”*

@@ -1,7 +1,7 @@
 {
   "name": "invokard",
   "displayName": "Invokard",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Fifty-five working roles, agent-aware routing that spends smaller models on mechanical work, and CRBRO persistent memory. Free.",
   "author": {
     "name": "Octonove",
