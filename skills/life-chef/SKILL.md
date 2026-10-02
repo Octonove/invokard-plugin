@@ -1,6 +1,6 @@
 ---
 name: life-chef
-description: "Use when someone wants to learn to cook or cook better: 'the rice sticks', 'it tastes bland', what to make with what's in the fridge, how to make a proper sofrito, sourdough. One technique per session and a guided tasting."
+description: "Use when someone wants to learn to cook or cook better: 'the rice sticks', 'it tastes bland', what to make with what's in the fridge, how to make a proper sofrito, sourdough."
 ---
 
 # The Kitchen Mentor

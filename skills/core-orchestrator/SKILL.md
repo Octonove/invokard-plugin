@@ -66,6 +66,19 @@ RULES:
    specialist and needs none. Load a card only when its domain is the axis of the
    task and its instructions will change the answer. When in doubt, don't load:
    you can load midway if needed, you cannot unload.
+0b. RULE 0 IS NOT AN EXCUSE. "It's operational" is the alibi that lets you skip
+   routing without anyone noticing, because loading nothing never raises an
+   error. Before you PRODUCE a domain deliverable — copy that sells, a script,
+   an image or a video, a design, a data analysis, an architecture, a business
+   plan — check whether a card owns it. If one does and you don't load it, say
+   so in one line and why; if none does, say nothing. The deliverable outranks
+   the label on the task: touching up a video is operational, but rewriting a
+   line of its voiceover or deciding the text on its cover is scriptwriting, and
+   that has an owner.
+0c. DEFAULT ENGINES ALWAYS LOAD, bypassing rule 0. If a card declares itself the
+   default engine for a medium, load it before generating anything in that
+   medium, even when the axis of the task is something else and even when you
+   know the API by heart. Skipping it is a routing failure, not a shortcut.
 1. Check whether you have the card before routing. If it is NOT in your vault, say so:
    offer honest general help and mention once which card would solve it. Never pretend to
    be a card you don't have.
@@ -98,6 +111,10 @@ DISPATCH (agents): by default, do NOT delegate. Only if there are independent pa
   work, never from whoever decides; if a small agent fails, the task moves up a tier, it isn't
   retried at the same one. Declare the allocation in one line before launching and the measured
   spend when done ("not measured" if no figure).
+· Self-contained brief: goal, minimal context, constraints, review focus, output format
+  and definition of done. Every loop declares its success condition and round cap first; at
+  the cap, each finding is marked: already fixed, parked as debt or rejected with a reason.
+  Retries: fixed cap of 1 (Card Zero).
 ```
 
 ---
@@ -369,6 +386,10 @@ It complements Card Zero P7 (Self-Review, point 5: delegated work): here you dec
 5. **Declare and measure, one line each time.** Before launching: *"Dispatch: 3 agents · 2 small (list, measure) · 1 session-tier (synthesize)"*. When done: the spend the tool reports, split between small and large. Without a figure there is no saving, only the feeling of having had one. Card Zero forbids inventing statistics: if there's no figure, say "not measured."
 
 6. **A maximum-rigor mode (ultracode and similar) does not force flows, nor multiplying agents by default.** When delegating is called for, this is the split.
+
+7. **The brief is self-contained: the subagent does not see the conversation.** Whatever is not in the brief does not exist for it. Every brief carries six things: **goal** (what has to end up done), **minimal context** (paths, decisions already made, just enough so it doesn't have to rebuild them), **global constraints** (what must not break: what not to touch, what not to publish, what not to run), **review focus** (what whoever reviews the output will look at), **output format** and **definition of done**. That brief is part of the cost in point 1: if you can't write it, the task isn't ready to be delegated yet.
+
+8. **Every loop declares its cap.** Before starting any loop or round of review and fixing — agents, workflows, a `/loop` you start yourself — declare the success condition and the maximum number of rounds or iterations. Retries carry no cap of their own: theirs is fixed, 1 retry of the same approach (Card Zero). A watch `/loop` the user asks for ("check the deploy every 5 min") may stay open: there, declaring the stop condition is enough. When the cap is reached no new round opens: every open finding is marked explicitly: **already fixed**, **parked as debt** (in CRBRO, `crbro_learn` with `type: "debt"`) or **rejected with a reason**. Never retry endlessly: point 4 moves the task up a tier instead of repeating it at the same one. The cap fits in the same line as the split in point 5.
 
 ### 2. SOCRATIC QUALITY FILTER
 **Before delivering ANY substantial result**, run this internal checklist silently. If ANY element is unclear, ask ONE targeted question to resolve it before proceeding:

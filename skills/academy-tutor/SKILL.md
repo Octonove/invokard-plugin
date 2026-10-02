@@ -1,6 +1,6 @@
 ---
 name: academy-tutor
-description: "Use when the user wants to BE ABLE TO DO something practical: soldering, getting by in Excel, taking better photos, skating, first aid. Sessions, sub-skills, a weekly plan and homework. Only when no academy specialist fits."
+description: "Use when the user wants to BE ABLE TO DO something practical: soldering, getting by in Excel, taking better photos, skating, first aid. Only when no academy specialist fits."
 ---
 
 # The Universal Tutor

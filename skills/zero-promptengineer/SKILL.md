@@ -1,6 +1,6 @@
 ---
 name: zero-promptengineer
-description: "Use when a prompt fails or has to be designed: 'the AI ignores my instructions', answers differently every time, a system prompt for X, tool calling that fails. Forensic debugging: reproduce, isolate, A/B test. Not for writing copy."
+description: "Use when a prompt fails or has to be designed: 'the AI ignores my instructions', answers differently every time, a system prompt for X, tool calling that fails. Not for writing copy."
 ---
 
 # Prompt Engineer
@@ -186,6 +186,64 @@ Production prompts accumulate rules over time, and rules collide in non-obvious 
 ### Step 5 — Verify without regression
 
 Every fix is tested against the cases that ALREADY worked, not just the case that failed. A production prompt deserves a mini test suite: 3-5 representative inputs (typical case, edge case, rejection case) that you run after each change. V1 → Test → V2 → Test → V3.
+
+### The shape of the rule depends on the failure
+
+Step 1 tells you what fails; you still have to decide what shape the fix takes. Two failures that sound the same in chat ("it doesn't do what I asked") call for rules of opposite shape:
+
+- **Deliberate non-compliance under pressure:** the model knows what it must do and skips it when something pushes the other way — user haste, a plausible excuse, a tempting shortcut. What works here is a **prohibition**: "never do X", with its table of anticipated excuses and the counter for each one, so the shortcut finds no gap.
+- **Output-shape failure:** an element is missing, the format comes out different, a section moves. There is no temptation to beat: the model just isn't clear on the shape. One more prohibition ("don't forget the date") makes the prompt longer and rarely fixes it. What works is a **positive recipe or a template**: the exact shape that must come out, with a slot for each element.
+
+How to tell which one you have, using the outputs you already gathered in Step 0:
+1. **Does the model justify the deviation?** If the output or its visible reasoning gives itself permission ("since this is urgent, I'll skip the check"), it's non-compliance. If the element is simply not there, with no justification, it's shape.
+2. **Which inputs trigger it?** If it fails when the input carries pressure (urgency, the user asks for the shortcut, a long task), it's non-compliance. If it also fails on calm inputs, it's shape.
+3. **Confirm it with a Step 3 A/B:** the same rule as a prohibition versus as a template, one single difference. The metric that was failing decides: format compliance if it was shape; compliance rate on the pressure inputs if it was non-compliance.
+
+Non-compliance → prohibition with counters:
+
+```text
+Never mark a task as done without running the tests.
+| Excuse | Counter |
+|---|---|
+| "It's a one-line change" | One line breaks things just the same. Run them. |
+| "The user is in a hurry" | Shipping it broken costs them more time. Run them and say how long they took. |
+```
+
+Shape → template. Before: "Summarize the incident; don't forget the cause or the next step" (every few runs it comes out without a next step). After:
+
+```text
+Reply with exactly these three lines:
+What happened: {{one sentence}}
+Cause: {{one sentence, or "unconfirmed"}}
+Next step: {{action and owner}}
+```
+
+Sign you picked the wrong shape: you add prohibitions and the element is still missing, or the template comes out flawless but the step still gets skipped under pressure. Change the shape, not the wording.
+
+### Layered diagnosis of an agent app
+
+Steps 0-5 assume the prompt is the only variable. In an agent app, when the user says "sometimes it does weird things", the prompt is one of six layers, and any of the other five can produce the same symptom. Before touching a single word of the prompt, locate the layer:
+
+| Layer | What can go wrong | What to log | A/B that isolates it |
+|---|---|---|---|
+| 1. Prompt and system | Ambiguous or conflicting instructions | The already-assembled text the model receives on that call, not the template | Steps 2-4 on that text, with the other layers held fixed |
+| 2. Wrapper (harness) | Injects its own text, trims history, changes model, temperature or token limit | The raw API request: model, parameters and message list | The same request sent straight to the API, without the wrapper |
+| 3. Tools: definitions and results | Ambiguous description, schema that doesn't match, truncated result, error returned as if it were success | The definitions sent and every tool result, verbatim | Recorded, fixed results versus live results |
+| 4. Memory or polluted context | Stale summary, wrong memory note, retrieval that brings the wrong document or one with instructions inside | What entered the context from memory or retrieval on that turn | Same request with memory empty or retrieval frozen |
+| 5. Hidden retry or repair loops | The code retries when parsing fails, a second prompt "fixes" the JSON; what you see is not the first response | Every model call with its attempt number, not just the last one | Retries and repair turned off: look at the first response |
+| 6. Rendering or post-processing | Markdown that eats characters, cleanup regex, cut-off streaming, UI truncation | The model's raw output and the displayed one, side by side | Raw versus displayed: if the raw one is fine, the model is innocent |
+
+How to isolate it, with the same discipline as the protocol:
+1. **Reproduce with everything logged.** Turn on logging for each layer ("What to log" column) and repeat until you have at least one bad run and one good run with the same input. Without both there is nothing to compare.
+2. **Work from the outside in: from 6 to 1.** The outer layers are checked with a diff, without spending model calls. The first layer where the bad run and the good run differ in a relevant way is your suspect.
+3. **A/B changing a single layer.** Hold the rest fixed (recorded results, frozen memory, retries off, same request) and vary only the suspect. It's Step 3 with the layer as the variable instead of the sentence.
+4. **Fix it where the failure is.** If the culprit is layer 1, continue with Steps 1-4 on the assembled text. If it's another one, the fix goes in that layer's code, and the Step 5 regression is run with all six layers active.
+
+In an agent, variance between runs doesn't point only to ambiguity or temperature: first, check which layer changed from one run to the next even though the prompt was identical.
+
+Two short cases:
+- A support agent sometimes answers in English even though the prompt says "reply in Spanish". The logs show that on the bad runs the search tool returned an article in English. With recorded results in Spanish, the failure disappears. Layer 3: rewriting the language sentence five times would not have fixed it.
+- The model log shows a JSON with every field filled in, but on screen some come out empty. Raw versus displayed: an HTML sanitizer deletes values containing `<` or `>` ("delivery in < 24 h"). Layer 6: the prompt was never to blame.
 
 ---
 

@@ -302,6 +302,40 @@ Finish with: *"Shall I proceed with the full design and the configuration files?
 
 Deliver the complete result tailored to the detected level. If your environment can write files, the deliverables are generated as real files in the repo (Dockerfile, pipeline YAML, IaC modules), not as text describing them.
 
+### I just deployed: is it OK?
+
+This closes every deploy, whatever the level. If the user arrives with exactly this question, skip steps 1-3: STEP 0 plus this list is enough. If the pipeline already runs the smoke tests from §2, don't repeat them: this list covers what those tests can't see — the caches, mobile, a real browser. If the deploy was a canary (§2), run it against the canary before you raise its traffic, not once it's already serving 100%. There the canonical URL almost always serves the stable version: force routing to the canary with your load balancer's mechanism (its canary header or cookie, or its internal host), add it to the `curl` calls and note which one you used. Item 1's rule applies to the stable version. Every item ends as ✅, ❌ or "n/a"; none is left blank.
+
+1. **The canonical URL, with no parameters.** The exact address people visit, with its protocol, its `www` or lack of it, and its trailing slash. No `?v=123`, `?nocache` or `?preview`: a parameter skips the caches and shows you the new version while your users still get the old one. Also check that the variants (http, with or without `www`) redirect to that canonical URL.
+```bash
+URL="https://example.com/"                                          # the canonical URL, as is
+curl -sSIL "http://example.com/" | grep -iE '^(HTTP|location)'      # redirect chain
+```
+2. **Desktop and mobile.** Some caches and templates keep a separate copy for mobile: one coming out fine says nothing about the other. Request the URL with both agents and compare status and headers; then open it in a real browser of each kind (or in DevTools device mode), always in a private window.
+```bash
+UA_DESKTOP="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+UA_MOBILE="Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+for UA in "$UA_DESKTOP" "$UA_MOBILE"; do
+  curl -sSI -A "$UA" "$URL" | grep -iE '^(HTTP|cache-control|age|x-cache|cf-cache-status|x-litespeed-cache|x-varnish|via)'
+  echo "---"
+done
+```
+3. **The caches, layer by layer.** From the headers in item 2, write down which layers sit between the user and your code: CDN (`cf-cache-status`, `x-cache`, `age`), server cache (`x-litespeed-cache`, `x-varnish`, `via`) and optimization plugin (these usually add their own header: look for it, don't assume it). A `HIT` with an `age` larger than the time since the deploy is the old version. For each layer, write down how it is purged and check that it was:
+   - **Inside out:** application or plugin → server → CDN. If you purge the CDN first, it refills with the stale copy the server is still holding.
+   - **Some layers can only be purged from a web request:** the application responds with a header the server reads as a purge order (LiteSpeed works this way, with `X-LiteSpeed-Purge`). A CLI or SSH command that doesn't go through a web request may not touch them: purge from the application's panel or web action and read the headers again.
+   - **After purging, repeat item 2.** Until the canonical URL serves the new version to both agents, it isn't deployed.
+4. **Endpoints returning 200.** A short list of the URLs that matter — home page, login, a product or article page, the health endpoint, the sitemap if SEO is involved — and their status:
+```bash
+for u in "$URL" "${URL}login" "${URL}api/health"; do
+  curl -sS -o /dev/null -w "%{http_code}  %{time_total}s  %{url_effective}\n" "$u"
+done
+```
+   A 200 that is much slower than before the deploy gets written down too.
+5. **Assets and console.** Private window, DevTools open, reload. In the Network tab, no JS, CSS, image or font in 4xx/5xx, and none requested from a URL with a build hash that no longer exists. In the Console, no red errors. If you have browser hands (STEP 0), do it yourself and paste what you see; if not, ask the user for a screenshot of those two tabs.
+6. **Forms and key flows.** Walk by hand through the two or three paths that pay the bills: the contact form, sign-up or login, the cart up to just before payment. With test accounts or data marked as such (a `+test` email, a recognisable prefix) that you clean up afterwards, telling the user beforehand — in production every submission sends real emails, creates rows and fires webhooks —, and checking that what should arrive does arrive (the email, the database row, the webhook). A form that "submits" and delivers nothing is the failure that takes longest to discover.
+7. **Manual rollback, ready to run.** Rule 4 asks for the plan before the deploy; here you check that it works: the exact command to go back to the previous version (release, tag or previous image, with its identifier written down), who runs it, how long it takes and what doesn't revert by itself (database migrations, uploaded files, the cache you'll have to purge again). If anything in items 1-6 comes out ❌ and can't be fixed within minutes, you propose running this, not a hotfix (rule 2); if the rollback involves migrations or data, confirm it first in one line (rule 1).
+8. **Leave a record.** An entry in the PR, the ticket or the changelog with date and time, deployed version or commit, canonical URL checked, result of each item, layers purged and who verified it. Without a record, the next incident starts by guessing what changed.
+
 ### For 🟢 Beginners:
 1. **🏗️ Your deployment plan** — Clear explanation of what we're going to do and why.
 2. **📋 Configuration files** — Dockerfile, docker-compose, or PaaS config. Copy-paste-ready with comments.

@@ -1,6 +1,6 @@
 ---
 name: life-habits
-description: "Use when someone wants to build or break a habit: going to the gym without quitting, putting the phone down, getting up early, 'I procrastinate', 'I quit after three weeks', 'I'm inconsistent'. Anchor, friction, environment and a relapse plan."
+description: "Use when someone wants to build or break a habit: going to the gym without quitting, putting the phone down, getting up early, 'I procrastinate', 'I quit after three weeks', 'I'm inconsistent'."
 ---
 
 # The Habit Architect

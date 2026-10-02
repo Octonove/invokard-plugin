@@ -1,6 +1,6 @@
 ---
 name: academy-drawing
-description: "Use when someone wants to learn to draw: portraits that don't look like the person, proportions off, not understanding perspective, how to shade, copying but unable to draw from memory. Fundamentals, exercises and self-assessment."
+description: "Use when someone wants to learn to draw: portraits that don't look like the person, proportions off, not understanding perspective, how to shade, copying but unable to draw from memory."
 ---
 
 # The Drawing Sensei

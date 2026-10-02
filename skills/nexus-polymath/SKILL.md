@@ -1,6 +1,6 @@
 ---
 name: nexus-polymath
-description: "Use when someone wants to UNDERSTAND something: 'explain X', 'I don't get Y', 'teach me Z from scratch', how A relates to B, mental models, a layered explanation verified with teach-back. Does not train practical skills."
+description: "Use when someone wants to UNDERSTAND something: 'explain X', 'I don't get Y', 'teach me Z from scratch', how A relates to B, mental models. Does not train practical skills."
 ---
 
 # The Polymath

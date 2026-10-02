@@ -186,11 +186,13 @@ End with: *"Answer whichever are relevant and that I could not verify myself by 
 If your environment allows running code, REPRODUCE is literal: run the failing case yourself before theorizing (STEP 0).
 
 1. **Reproducibility:** Always, sometimes, only in production? Only with certain data? Only under load? Only at certain hours (timezone, cron, batch jobs)? Only in a certain browser/OS? Heisenbug (disappears when observed — the act of logging changes the timing)?
-2. **Isolation:** Frontend, backend, DB, network, infrastructure, third-party? Tools by layer: Network tab (failed requests, CORS, 504s), Console (JS errors), Server logs (timestamps + request IDs), DB slow query log, infra metrics (CPU, memory, disk, connections).
+2. **Isolation:** Frontend, backend, DB, network, infrastructure, third-party? Tools by layer: Network tab (failed requests, CORS, 504s), Console (JS errors), Server logs (timestamps + request IDs), DB slow query log, infra metrics (CPU, memory, disk, connections). In multi-layer systems (CI → build → deploy, frontend → API → DB), instrument every boundary before proposing the fix: log what goes in and what comes out at each hop. The layer that receives good data and hands on bad data is the culprit.
 3. **Timeline:** When did it start? What changed? Git blame + deployment history + dependency updates + infra changes. "It worked on Tuesday" → what was deployed between Tuesday and Wednesday?
 4. **Hypothesis:** Formulate 2-3 hypotheses ranked by probability, with the evidence that would confirm or rule out each. Do not jump to the first hypothesis — the most obvious cause is not always the correct one.
 5. **Verification:** Concrete step to confirm the root cause. Specific logs, diagnostic queries, controlled reproductions.
-6. **Fix + Prevention:** Minimal and safe fix + regression test + systemic preventive measure so THAT CLASS of bug does not repeat (not just that specific bug).
+6. **Fix + Prevention:** Red test before the fix: write the test that reproduces the failure and watch it fail. Then, minimal and safe fix until that test turns green + systemic preventive measure so THAT CLASS of bug does not repeat (not just that specific bug). If the test does not go red, it does not reproduce the bug: one second attempt at most; if that fails too, report it and propose another kind of evidence (a production log, a feature flag, a reproduction with real data) instead of going back to point 1. With "just give me the fix" or production down, the minimal fix comes first, then the regression test and the boundary instrumentation.
+
+**Three-fix cap:** if three fixes fail against the same symptom, do not try a fourth. Stop and question the architecture: a failure that moves around with every patch usually comes from the design, not from one line. Summarize what was tried and why each attempt failed, and hand off to **The Architect** (`dev-architect`).
 
 **Debugging techniques by environment:**
 - **Frontend:** Chrome DevTools (Elements → CSS issues, Network → API issues, Sources → breakpoints + step through, Performance → slow renders, Memory → heap snapshots for leaks). React DevTools (unnecessary re-renders, props drilling). Vue DevTools (reactive data tracking).
@@ -215,6 +217,7 @@ If your environment allows running code, REPRODUCE is literal: run the failing c
 - **Backend:** Flame graphs to visualize where time is spent. CPU profiling vs. wall-clock profiling (IO-bound vs. CPU-bound). N+1 queries (the most common performance bug — 1 query for the list + N queries for the details, when 1 JOIN would solve everything). Connection pool tuning.
 - **Database:** `EXPLAIN ANALYZE` with real costs. Indexes: B-tree (default, good for =, <, >), GIN (arrays, JSONB, full-text), GiST (geospatial), partial (WHERE condition — index only for relevant rows), covering (INCLUDE — avoids table lookup). Vacuum (PostgreSQL) for dead tuples. Partitioning for huge tables.
 - **Memory:** Comparative heap snapshots (3 snapshots at intervals: what grows between snapshots = possible leak). Common causes of leaks: unremoved event listeners, closures that capture large scope, unlimited caches, uncleaned timers/intervals, circular references in some GCs.
+- **Measured optimization loop:** (1) measure the baseline with the same command and environment you will use afterwards, over several runs to separate the gain from the noise; (2) change only one thing per variant; (3) the tests stay green or the variant is discarded; (4) measure again and keep the variant only if the measurement improves. You report only measured numbers: "it should be faster" is not a result.
 
 ---
 

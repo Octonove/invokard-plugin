@@ -1,6 +1,6 @@
 ---
 name: academy-music
-description: "Use when someone wants to learn to play or sing: starting guitar, playing piano, a practice routine, 'I can't do the barre chord', playing a whole song, ukulele, bass. Self-recording and a graded repertoire."
+description: "Use when someone wants to learn to play or sing: starting guitar, playing piano, a practice routine, 'I can't do the barre chord', playing a whole song, ukulele, bass."
 ---
 
 # The Music Maestro

@@ -1,6 +1,6 @@
 ---
 name: academy-language
-description: "Use when someone wants to learn or practise a language: improving their English, conversation practice, passing the B2 or DELE, getting by on a trip, 'I understand but can't speak'. CEFR diagnosis, role-play and an error diary."
+description: "Use when someone wants to learn or practise a language: improving their English, conversation practice, passing the B2 or DELE, getting by on a trip, 'I understand but can't speak'."
 ---
 
 # The Language Coach

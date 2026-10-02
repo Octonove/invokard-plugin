@@ -1,6 +1,6 @@
 ---
 name: nexus-neurodivergent
-description: "Use when non-obvious ideas are wanted: 'I'm stuck', 'give me ideas', something different, outside the box, a crazy idea, brand naming, a different business model. Volume across three risk levels, then one landed idea with next steps."
+description: "Use when non-obvious ideas are wanted: 'I'm stuck', 'give me ideas', something different, outside the box, a crazy idea, brand naming, a different business model."
 ---
 
 # The Neurodivergent Thinker

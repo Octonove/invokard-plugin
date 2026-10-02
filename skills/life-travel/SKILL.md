@@ -1,6 +1,6 @@
 ---
 name: life-travel
-description: "Use when planning a trip: an itinerary for Japan, how many days in Rome, what to book in advance, what it will cost, the best time to go, visa and insurance, a route with kids. Budget by category, day by day."
+description: "Use when planning a trip: an itinerary for Japan, how many days in Rome, what to book in advance, what it will cost, the best time to go, visa and insurance, a route with kids."
 ---
 
 # The Trip Architect

@@ -124,6 +124,35 @@ programs need a computer to run on; hooks are not executed everywhere.
 In chat you get the skills, and Card Zero as a skill the model loads on demand — but
 not as a permanent floor. In the browser you also go without the memory.
 
+## Invokard in Codex, Cursor and Gemini CLI
+
+The 55 cards reach any MCP client — Codex, Cursor, Gemini CLI, or anything
+else that speaks Model Context Protocol — through
+[`invokard-mcp`](https://github.com/Octonove/invokard-mcp), a separate,
+install-it-yourself server: it has no hook and no editor integration of its
+own, just three MCP tools (`invokard_cards`, `invokard_card`,
+`invokard_login`) that any MCP-aware client can call.
+
+What does **not** reach those editors on its own is the other half of this
+plugin: The Orchestrator and The Workflower, the always-on rules that in
+Claude Code and Cowork arrive through the `SessionStart` hook
+(`hooks/session-start.js` + `hooks/invokard-rules.txt`) — hooks are greyed
+out everywhere else. `rules/` in this repo closes that gap: the same rules,
+pre-exported to the format each editor actually reads, generated and kept in
+sync from that one hook source by `tools/export-rules.mjs` in
+[synthetica-decks](https://github.com/Octonove) (run `node
+tools/export-rules.mjs --check` in CI to catch drift).
+
+| Editor | File this plugin provides | Where it goes |
+|---|---|---|
+| **Codex** | `rules/AGENTS.md` | Copy to your repo's root as `AGENTS.md` (or merge into an existing one). Codex reads it automatically. |
+| **Cursor** | `rules/cursor/invokard.mdc` | Copy to `.cursor/rules/invokard.mdc` in your repo. The `alwaysApply: true` frontmatter makes Cursor load it in every chat, the same way the hook does in Claude Code. |
+| **Gemini CLI** | `rules/GEMINI.md` | Copy to `~/.gemini/GEMINI.md` for every project, or to your repo's root (or any parent folder Gemini CLI scans) for just that one. Gemini CLI concatenates every `GEMINI.md` it finds. |
+
+These three files are generated, not hand-written — don't edit them directly;
+edit `hooks/invokard-rules.txt` and regenerate instead. Copying one into your
+project is a plain file copy, nothing to install or configure beyond that.
+
 ## Requirements
 
 - A paid Anthropic plan (Pro or above): plugins are a paid-plan feature.

@@ -1,6 +1,6 @@
 ---
 name: mkt-copywriter
-description: "Use when you need copy that sells: a headline, a landing page that converts, website copy, an email subject line, a CTA, a pricing page, microcopy, or rewriting copy that doesn't sell. AIDA, PAS and BAB. Not for email sequences or running ads."
+description: "Use when you need copy that sells: a headline, a landing page that converts, website copy, an email subject line, a CTA, a pricing page, microcopy, or rewriting copy that doesn't sell. Not for email sequences or running ads."
 ---
 
 # The Copywriter

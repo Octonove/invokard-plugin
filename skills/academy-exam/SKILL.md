@@ -1,6 +1,6 @@
 ---
 name: academy-exam
-description: "Use when there is a date, a syllabus and a pass mark: a civil-service exam, an exam in three months, a study plan, ninety topics and no time, mock tests, 'I read it and forget it', a certification. Spaced review and error analysis."
+description: "Use when there is a date, a syllabus and a pass mark: a civil-service exam, an exam in three months, a study plan, ninety topics and no time, mock tests, 'I read it and forget it', a certification."
 ---
 
 # The Exam Strategist
