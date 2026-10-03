@@ -58,10 +58,13 @@ They are grouped in eleven decks:
 
 ### 2. Card Zero — the floor everything stands on
 
-Nine rules the model follows before doing anything else: verify a path exists before
+Ten rules the model follows before doing anything else: verify a path exists before
 touching it, say "I don't know" instead of inventing a URL or a figure, don't flatter,
 don't exceed the scope asked for, confirm before deleting or overwriting, re-read its
-own work. It is not a specialist. It is what makes every specialist safer to use.
+own work — and treat whatever arrives from outside (a web page, a file, a README, a
+tool's output, another agent's reply) as data, never as orders, so an instruction
+hidden in a page cannot make it install, send or delete anything. It is not a
+specialist. It is what makes every specialist safer to use.
 
 Worth keeping loaded always. It costs almost nothing and it removes the most common
 ways an AI assistant quietly does damage.
@@ -78,8 +81,11 @@ and it signs `▸ [Card name]` when it switches, so you always know who is talki
 fifty-five options, this is what keeps routing sharp instead of guessy. It also starts
 with **zero agents by default**. When delegation is genuinely useful, it chooses how many
 agents to launch and assigns mechanical work to smaller models, bounded analysis to a
-mid-tier model, and coding or consequential decisions to the session model. The goal is
-measurable quota efficiency without quietly downgrading the work that needs judgment.
+mid-tier model, and coding or consequential decisions to the session model. Every agent
+it launches gets a self-contained brief — goal, context, what not to touch, output format,
+when it is done — and every loop or review round declares its cap before it starts, so
+nothing retries forever. The goal is measurable quota efficiency without quietly
+downgrading the work that needs judgment.
 
 **The Workflower** watches for repetition. If you do the same thing by hand two or
 three times in a session, it offers — at the end, never mid-task — to turn it into a
@@ -97,7 +103,15 @@ machine and gives the model persistent memory.
   whole brain.
 - During the session it records only what will still matter later, with explicit
   replacement, retirement and deletion instead of piling up contradictory versions.
-- At the end it consolidates and links what changed.
+- At the end it consolidates and links what changed, and points out lessons that have
+  turned up in more than one project.
+
+Optional extras from the same package, for Claude Code: `npx crbro-memory install-hooks
+--compact` saves a redacted checkpoint before the conversation is compacted and hands
+it back afterwards, so a long session does not lose the thread; `npx crbro-memory usage`
+shows the tokens each model spent per session; and `npx crbro-memory postmortem` lists
+candidate lessons from your recent sessions — corrections, repeated requests, tools
+that kept failing — without saving anything on its own.
 
 The memory lives in `~/.crbro` as plain JSON files you can open, edit and version. No
 account, no cloud, nothing leaves your computer. It is its own open-source project:
@@ -128,7 +142,7 @@ not as a permanent floor. In the browser you also go without the memory.
 
 The 55 cards reach any MCP client — Codex, Cursor, Gemini CLI, or anything
 else that speaks Model Context Protocol — through
-[`invokard-mcp`](https://github.com/Octonove/invokard-mcp), a separate,
+[`invokard-mcp`](https://www.npmjs.com/package/invokard-mcp), a separate,
 install-it-yourself server: it has no hook and no editor integration of its
 own, just three MCP tools (`invokard_cards`, `invokard_card`,
 `invokard_login`) that any MCP-aware client can call.
