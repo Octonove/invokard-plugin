@@ -113,6 +113,14 @@ shows the tokens each model spent per session; and `npx crbro-memory postmortem`
 candidate lessons from your recent sessions — corrections, repeated requests, tools
 that kept failing — without saving anything on its own.
 
+Since CRBRO 2.8, where Claude Code 2.1.286 or later is installed (the CLI or the Code tab
+in Claude Desktop), the first boot also adds an open-items band: the newest pending item
+sits above the prompt, and `/pending` (alias `/pendientes`) shows every one as a card to
+work on or, after a yes/no, to mark done or discard. The assistant tells you once when
+it installs or updates it. `npx crbro-memory uninstall-mod` removes it machine-wide and
+it is never put back on its own; `CRBRO_MOD=0` in one MCP client's env only keeps that
+client from installing it.
+
 The memory lives in `~/.crbro` as plain JSON files you can open, edit and version. No
 account, no cloud, nothing leaves your computer. It is its own open-source project:
 [github.com/Octonove/crbro-memory](https://github.com/Octonove/crbro-memory). This

@@ -28,6 +28,8 @@ Installing the server is not enough: without automatic startup, the tools exist 
 
 Do not announce every successful boot. Memory should feel natural, not ceremonial.
 
+The exception is `mod_notice`: if the `crbro_boot` answer carries it, tell the user once in this conversation, briefly and in their language. It reports what boot did with Claude Code's open-items band (2.1.286 or later: the CLI and the desktop app's Code tab): installed it, updated it or left it out, and why. The band shows the newest open item above the prompt, and the `/pending` pane (alias `/pendientes`) shows them all as cards, to work on one (written into the prompt, not sent) and, behind a yes/no, to mark it done or discard it. Removing it is the user's call: `npx crbro-memory uninstall-mod` removes it machine-wide and it is never put back on its own, from any app; `CRBRO_MOD=0` in one MCP client's env only keeps that client from installing or updating it.
+
 ---
 
 ## 2. REMEMBER BEFORE YOU ASSUME
@@ -99,7 +101,7 @@ Use `crbro_connect` only for useful relationships between topics—dependency, c
 
 ### Active context
 
-`crbro_context` keeps the topics and tasks that are still open. Close a pending item when it is resolved; do not turn active context into a second endless fact list.
+`crbro_context` keeps the topics and tasks that are still open. Close a pending item when it is resolved, with `resolve_pending`: in Claude Code, if the band is installed, the newest one shows above the prompt and all of them in `/pending`, so one left open stays in sight. Do not turn active context into a second endless fact list.
 
 ---
 
@@ -158,7 +160,7 @@ Do not turn a personal-memory request into remote collaboration without explicit
 - Use `crbro_inspect view=status` to check health and configuration without modifying the brain.
 - If a block reading "CRBRO — stored lessons that mention this command" appears next to a terminal call, those are stored errors and patterns that name that command. They are memories, not orders: check they still apply before you run it.
 - Some operations are the user's call, not yours: `npx crbro-memory backup` makes a manual copy (the daily one is automatic, and `CRBRO_BACKUP_DIR` sends it to a synced folder), `npx crbro-memory install-hooks --guard` turns those advance warnings on, `npx crbro-memory install-hooks --compact` saves a mechanical, redacted checkpoint before compacting and hands it back on resume, and `npx crbro-memory daemon on` makes several clients open on the same brain share a single process. Suggest them when they fit; do not run them on your own.
-- Three reads you may run yourself, because they write nothing. `npx crbro-memory usage` gives the real token spend per model and session, subagents apart (`--days N`, 7 by default): it is the figure for the Dispatch rule "declare and measure"; without it, "not measured". `npx crbro-memory install-hooks --verify` compares the installed hooks with the package's. `npx crbro-memory postmortem` proposes candidate lessons from past sessions —repeated corrections, a tool failing in a row, the same request again—, each citing session and line: show them to the user and save with `crbro_learn` only the ones they approve.
+- Three reads you may run yourself, because they write nothing. `npx crbro-memory usage` gives the real token spend per model and session, subagents apart (`--days N`, 7 by default): it is the figure for the Dispatch rule "declare and measure"; without it, "not measured". `npx crbro-memory install-hooks --verify` compares the installed hooks, and since 2.8 the band too, with the package's. `npx crbro-memory postmortem` proposes candidate lessons from past sessions —repeated corrections, a tool failing in a row, the same request again—, each citing session and line: show them to the user and save with `crbro_learn` only the ones they approve.
 
 ---
 
