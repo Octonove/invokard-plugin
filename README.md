@@ -121,6 +121,14 @@ it installs or updates it. `npx crbro-memory uninstall-mod` removes it machine-w
 it is never put back on its own; `CRBRO_MOD=0` in one MCP client's env only keeps that
 client from installing it.
 
+Since CRBRO 2.9, a fact that can change carries a shelf life: `volatile` (90 days:
+versions, prices, ports, hosts, paths and URLs, configuration values, people in roles),
+`normal` (365), `durable` (730) or `permanent`; if it is not given, CRBRO infers it from
+the text. When a recalled value has passed its shelf life since it was last verified,
+recall sets it apart under `possibly_stale`, opens with a warning and says where to
+check it. The CRBRO card tells the assistant to check that source before answering, or
+to say the value may be out of date, and then to mark it verified again or replace it.
+
 The memory lives in `~/.crbro` as plain JSON files you can open, edit and version. No
 account, no cloud, nothing leaves your computer. It is its own open-source project:
 [github.com/Octonove/crbro-memory](https://github.com/Octonove/crbro-memory). This
