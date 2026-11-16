@@ -208,4 +208,4 @@ There is no telemetry anywhere in this plugin.
 
 ## Author
 
-[Octonove](https://github.com/Octonove) · [invokard.web.app](https://invokard.web.app)
+[Octonove](https://github.com/Octonove) · [invokard.com](https://invokard.com/invokard)
