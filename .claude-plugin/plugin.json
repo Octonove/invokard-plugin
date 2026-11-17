@@ -1,7 +1,7 @@
 {
   "name": "invokard",
   "displayName": "Invokard",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Fifty-five working roles, agent-aware routing that spends smaller models on mechanical work, and CRBRO persistent memory. Free.",
   "author": {
     "name": "Octonove",
@@ -9,6 +9,7 @@
   },
   "homepage": "https://invokard.com/invokard",
   "repository": "https://github.com/Octonove/invokard-plugin",
+  "license": "MIT",
   "keywords": [
     "invokard",
     "skills",

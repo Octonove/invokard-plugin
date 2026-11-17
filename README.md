@@ -206,6 +206,17 @@ model from Hugging Face. The details are in
 
 There is no telemetry anywhere in this plugin.
 
+## Directory edition
+
+Anthropic's directory accepts hooks, local MCP servers and scripts only from organizations it has verified, so
+the `directory` branch carries an edition with the fifty-five skills alone (text only). It is built from `main`
+by `tools/directory_edition.py` on every push (`.github/workflows/directory-edition.yml`): edit `main`, never
+that branch.
+
+## License
+
+MIT ([LICENSE](LICENSE)).
+
 ## Author
 
 [Octonove](https://github.com/Octonove) · [invokard.com](https://invokard.com/invokard)

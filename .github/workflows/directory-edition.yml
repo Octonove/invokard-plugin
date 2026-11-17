@@ -1,0 +1,55 @@
+# Builds the directory edition (tools/directory_edition.py) on every push to main and commits it to the
+# `directory` branch when it changed. That branch is the one Anthropic's directory tracks; main stays the full
+# plugin (hook, CRBRO server, rules for other editors) that people install from this repository.
+name: directory edition
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: directory-edition
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Build and audit the directory edition
+        run: python tools/directory_edition.py "$RUNNER_TEMP/edition"
+
+      - name: Commit it to the directory branch when it changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="$RUNNER_TEMP/branch"
+          if git ls-remote --exit-code --heads origin directory > /dev/null; then
+            git fetch --quiet --depth 1 origin directory
+            git worktree add --quiet --detach "$branch" FETCH_HEAD
+          else
+            git worktree add --quiet --detach "$branch"
+            git -C "$branch" checkout --quiet --orphan directory-edition
+            git -C "$branch" rm -r --quiet --cached .
+          fi
+          find "$branch" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a "$RUNNER_TEMP/edition/." "$branch/"
+          cd "$branch"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "The directory edition did not change."
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+            commit --quiet -m "Directory edition from ${GITHUB_SHA::7}"
+          git push --quiet origin HEAD:refs/heads/directory
+          echo "Pushed $(git rev-parse --short HEAD) to the directory branch."
