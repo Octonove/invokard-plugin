@@ -1,0 +1,34 @@
+{
+  "name": "invokard",
+  "owner": {
+    "name": "Octonove",
+    "url": "https://github.com/Octonove"
+  },
+  "description": "Invokard's marketplace, directory edition: fifty-five working roles for Claude as skills. Text only.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "invokard",
+      "source": "./",
+      "displayName": "Invokard",
+      "description": "Fifty-five working roles for Claude as skills, and the rules that route between them. Text only: no code, no connections. Free.",
+      "version": "1.1.4",
+      "author": {
+        "name": "Octonove",
+        "url": "https://github.com/Octonove"
+      },
+      "homepage": "https://invokard.com/invokard",
+      "repository": "https://github.com/Octonove/invokard-plugin",
+      "category": "productivity",
+      "keywords": [
+        "invokard",
+        "skills",
+        "orchestrator",
+        "copywriting",
+        "data-analysis",
+        "business",
+        "learning"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "invokard",
+  "displayName": "Invokard",
+  "version": "1.1.4",
+  "description": "Fifty-five working roles for Claude as skills, and the rules that route between them. Text only: no code, no connections. Free.",
+  "author": {
+    "name": "Octonove",
+    "url": "https://github.com/Octonove"
+  },
+  "homepage": "https://invokard.com/invokard",
+  "repository": "https://github.com/Octonove/invokard-plugin",
+  "license": "MIT",
+  "keywords": [
+    "invokard",
+    "skills",
+    "orchestrator",
+    "copywriting",
+    "data-analysis",
+    "business",
+    "learning"
+  ]
+}
